@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body { text-align: center; font-family: Arial; }
+        .container { max-width: 400px; margin: auto; margin-top: 50px; }
+        .input-box { font-size: 24px; padding: 10px; text-align: center; width: 100%; }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .key { font-size: 24px; padding: 20px; background: #f0f0f0; border-radius: 5px; cursor: pointer; }
+        .key:active { background: #ccc; }
+        .btn { margin-top: 20px; padding: 10px; width: 100%; font-size: 20px; background: green; color: white; border: none; }
+    </style>
+    <script>
+        function addNumber(num) {
+            document.getElementById('number_id').value += num;
+        }
+        function clearInput() {
+            document.getElementById('number_id').value = '';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        {% if error %}<p style="color: red;">{{ error }}</p>{% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="number_id" id="number_id" class="input-box" placeholder="Enter ID" readonly required>
+            <div class="keypad">
+                {% for i in "123456789" %}
+                    <div class="key" onclick="addNumber('{{ i }}')">{{ i }}</div>
+                {% endfor %}
+                <div class="key" onclick="clearInput()">C</div>
+                <div class="key" onclick="addNumber('0')">0</div>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
+</body>
+</html>

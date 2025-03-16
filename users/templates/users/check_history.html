@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Check History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+        .btn-view {
+            background: #007bff;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .btn-view:hover {
+            background: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Check History</h1>
+
+<table>
+    <tr>
+        <th>Check #</th>
+        <th>Table #</th>
+        <th>Opened By</th>
+        <th>Action</th>
+    </tr>
+    {% for check in history %}
+    <tr>
+        <td>{{ check.check_number }}</td>
+        <td>{{ check.table_number }}</td>
+        <td>{{ check.opened_by.number_id }}</td>
+        <td>
+            <a href="{% url 'check_detail' check.id %}" class="btn-view">View Check</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No checks yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div style="text-align:center;">
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>

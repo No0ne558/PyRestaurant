@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Check {{ check.check_number }}</title>
+    <style>
+        body {
+            font-family: Arial, serif; padding: 20px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; }
+        h1 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background: #333; color: white; }
+        .back { margin-top: 20px; display: inline-block; text-decoration: none; color: #007bff; }
+        button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Check #{{ check.check_number }}</h1>
+    <p><strong>Table:</strong> {{ check.table_number }}</p>
+    <p><strong>Opened by:</strong> {{ check.opened_by.number_id }}</p>
+
+    <!-- Reopen Button -->
+    <form method="POST" action="{% url 'reopen_check' check.id %}">
+        {% csrf_token %}
+        <button type="submit">Reopen This Check</button>
+    </form>
+
+    <p style="margin-top: 20px;"><em>Past items data can be shown here if available...</em></p>
+
+    <a class="back" href="{% url 'check_history' %}">← Back to History</a>
+</div>
+</body>
+</html>

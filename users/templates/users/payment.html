@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body { text-align: center; font-family: Arial; margin-top:50px; }
+        .btn { margin: 10px; padding: 20px; font-size: 20px; background: green; color: white; border: none; }
+    </style>
+</head>
+<body>
+
+<h2>Table {{ table.number }} - Total: ${{ total }}</h2>
+<h3>Select Payment Method:</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" name="payment_method" value="cash" class="btn">Cash</button>
+    <button type="submit" name="payment_method" value="card" class="btn">Card</button>
+</form>
+
+</body>
+</html>

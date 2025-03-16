@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .open-table-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: #28a745;
+            color: white;
+            border: none;
+            font-size: 22px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .open-table-btn:hover {
+            background: #218838;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .status-bar h2 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .history-link {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .history-link:hover {
+            background: #0056b3;
+        }
+        .tables {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .table-card:hover {
+            background: #e9fce9;
+            transform: translateY(-3px);
+        }
+        .check-number {
+            margin-top: 12px;
+            font-size: 16px;
+            color: #444;
+        }
+        .opened-by {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #777;
+        }
+        .no-tables {
+            text-align: center;
+            font-size: 16px;
+            color: #888;
+            margin-top: 40px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Welcome, User {{ request.user.number_id }}
+</header>
+
+<div class="container">
+
+    <!-- Open New Table Button -->
+    <form action="{% url 'open_table' %}">
+        <button type="submit" class="open-table-btn">+ Open New Table</button>
+    </form>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <h2>Open Tables</h2>
+        <h2>Total Checks: {{ total_checks }}</h2>
+        <a class="history-link" href="{% url 'check_history' %}">View Check History</a>
+    </div>
+
+    <!-- Open Tables Grid -->
+    <div class="tables">
+        {% for table in tables %}
+            <a href="{% url 'table_view' table.id %}">
+                <div class="table-card">
+                    <strong>Table {{ table.number }}</strong>
+                    <div class="check-number">Check #: {{ table.check_number }}</div>
+                    <div class="opened-by">Opened by: {{ table.opened_by.number_id }}</div>
+                </div>
+            </a>
+        {% empty %}
+            <p class="no-tables">No open tables yet. Start by opening a new table.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

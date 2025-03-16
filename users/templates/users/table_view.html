@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table {{ table.number }}</title>
+    <style>
+        body { font-family: Arial; margin: 0; }
+        .container { display: flex; }
+        .receipt { width: 40%; background: #f8f8f8; padding: 20px; height: 100vh; overflow-y: auto; }
+        .menu { width: 60%; padding: 20px; }
+        .menu-item { margin-bottom: 10px; padding: 10px; background: #e0e0e0; border-radius: 5px; }
+        .btn { padding: 10px; background: green; color: white; border: none; font-size: 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Left Panel: Receipt -->
+    <div class="receipt">
+        <h2>Table {{ table.number }} - Check #{{ table.check_number }}</h2>
+        <h3>Receipt:</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for item in order_items %}
+                <li>
+                    {{ item.menu_item.name }} - ${{ item.menu_item.price }} x {{ item.quantity }} = ${{ item.total_price }}
+                    <form style="display:inline;" method="POST" action="{% url 'increase_item' table.id item.id %}">
+                        {% csrf_token %}
+                        <button type="submit">+</button>
+                    </form>
+                    <form style="display:inline;" method="POST" action="{% url 'decrease_item' table.id item.id %}">
+                        {% csrf_token %}
+                        <button type="submit">-</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No items yet.</li>
+            {% endfor %}
+        </ul>
+        <hr>
+        <h3>Total: ${{ total }}</h3>
+
+        <!-- Payment Button -->
+        <form method="GET" action="{% url 'payment' table.id %}">
+            <button style="margin-top:20px; padding:10px; background:red; color:white;">Payment</button>
+        </form>
+    </div>
+
+    <!-- Right Panel: Menu Items -->
+    <div class="menu">
+        <h2>Menu</h2>
+        {% for menu in menu_items %}
+            <div class="menu-item">
+                <p><strong>{{ menu.name }}</strong> - ${{ menu.price }}</p>
+                <form method="POST" action="{% url 'add_item' table.id menu.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>
