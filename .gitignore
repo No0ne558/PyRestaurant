@@ -1,0 +1,24 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Virtual environment
+.venv/
+
+# macOS
+.DS_Store
+
+# IDE configs
+.idea/
+.vscode/
+
+# Environment variables
+.env
+
+# Migrations (optional, if you want to avoid pushing them initially)
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.pyd
+*/migrations/__pycache__/
